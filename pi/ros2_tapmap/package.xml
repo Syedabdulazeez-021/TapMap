@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>tapmap</name>
+  <version>1.0.0</version>
+  <description>TapMap autonomous percussive defect-mapping rover - full ROS2 stack (sim + real ESP32)</description>
+  <maintainer email="tapmap@example.com">TapMap Team</maintainer>
+  <license>MIT</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>tapmap_interfaces</exec_depend>
+  <exec_depend>python3-serial</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
+
+  <export><build_type>ament_python</build_type></export>
+</package>

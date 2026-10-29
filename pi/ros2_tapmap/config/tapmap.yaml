@@ -1,0 +1,52 @@
+# TapMap calibration — edit these on the real robot, then rebuild (or reload).
+# Only four things usually need tuning: serial port, ticks_per_rev,
+# the direction signs, and min_pwm. Everything else is frozen chassis data.
+
+serial_bridge:
+  ros__parameters:
+    port: "/dev/ttyUSB0"      # ls /dev/ttyUSB* to confirm
+    baud: 115200
+    track: 0.15               # m: effective wheel separation for the 4-wheel chassis
+    v_at_full_pwm: 0.30       # m/s produced at PWM 255 (rough; tune if needed)
+    min_pwm: 80               # smallest PWM that still turns the wheels
+    max_pwm: 110              # SPEED CAP (medium). lower = slower, higher = faster
+    left_motor_dir: 1         # flip to -1 if the LEFT pair drives backward
+    right_motor_dir: 1        # flip to -1 if the RIGHT pair drives backward
+    left_enc_dir: 1           # (encoders unused on this chassis; harmless)
+    right_enc_dir: 1
+    tap_timeout_s: 4.0
+
+# WiFi link (optional): use robot_wifi.launch.py instead of robot.launch.py.
+# The ESP32 (WiFi firmware) shows its IP on the OLED at boot -> put it here.
+wifi_bridge:
+  ros__parameters:
+    esp32_ip: "192.168.1.50"  # SET to the IP shown on the ESP32 OLED
+    esp32_port: 8266
+    track: 0.15
+    v_at_full_pwm: 0.30
+    min_pwm: 80
+    max_pwm: 110              # SPEED CAP (medium). lower = slower, higher = faster
+    left_motor_dir: 1
+    right_motor_dir: 1
+    left_enc_dir: 1
+    right_enc_dir: 1
+    tap_timeout_s: 4.0
+
+# 4-wheel chassis is ENCODER-LESS -> deadreckon_controller replaces base_controller.
+# Calibrate these two with a stopwatch + ruler on the floor:
+#   speed_scale: drive "forward 1.0 m" (10 taps @ 0.1 m). Measure real cm moved.
+#                speed_scale = real_metres / 1.0
+#   turn_scale : command a 180 deg row-turn. Measure the real angle with a protractor.
+#                turn_scale = real_degrees / 180
+deadreckon_controller:
+  ros__parameters:
+    speed_scale: 1.0
+    turn_scale: 1.0
+    use_imu: true             # auto-uses the gyro for heading IF the firmware streams it
+    cmd_timeout: 0.5
+    rate_hz: 50.0
+
+audio_classifier:
+  ros__parameters:
+    ratio_threshold: 0.5
+    tapper_offset: 0.046      # m, striker ahead of base_link (frozen)
