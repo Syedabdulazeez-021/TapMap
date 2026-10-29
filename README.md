@@ -40,6 +40,7 @@ pi/
                       report_generator, base_controller, sim_firmware
     launch/           robot_wifi.launch.py, robot.launch.py, sim.launch.py
     config/tapmap.yaml
+  tapmap_interfaces/  custom msgs + action   (-> ~/tapmap_ws/src/tapmap_interfaces/)
   scripts/
     wander.py         autonomous march-and-tap explorer (obstacle-aware)
     live_map.py       live web heat-map on :8080
@@ -54,6 +55,10 @@ docs/
   TapMap_Complete_Build_Plan.pdf
   TapMap_Engineering_Blueprint.md
   TapMap_Mid_Review.pptx
+  BOM.md                 bill of materials + approximate costs
+  Pi_L298N_Pinout.png    Pi GPIO -> L298N wiring diagram
+LICENSE                  MIT
+INSTALL.md               setup / dependencies
 ```
 
 ---
@@ -82,10 +87,12 @@ const char* WIFI_PASS = "YOUR_HOTSPOT_PASSWORD";
 Flash with PlatformIO (`esp32/platformio.ini`). The OLED shows the ESP32's IP on
 boot — put that IP into `pi/ros2_tapmap/config/tapmap.yaml` → `wifi_bridge: esp32_ip`.
 
-### 2. Pi workspace
+### 2. Pi workspace  (full steps in INSTALL.md)
 ```bash
-# copy the package in, then:
-cd ~/tapmap_ws && colcon build --packages-select tapmap && source install/setup.bash
+mkdir -p ~/tapmap_ws/src
+cp -r pi/ros2_tapmap       ~/tapmap_ws/src/tapmap
+cp -r pi/tapmap_interfaces ~/tapmap_ws/src/tapmap_interfaces
+cd ~/tapmap_ws && colcon build && source install/setup.bash
 ```
 
 ### 3. Launch + run (same WiFi as the ESP32)

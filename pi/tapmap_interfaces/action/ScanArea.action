@@ -1,0 +1,16 @@
+# Goal: cover a width x height area in a boustrophedon grid
+float32 width          # m
+float32 height         # m
+float32 spacing        # m between tap points
+bool    return_home    # drive back to start when done
+---
+# Result
+int32   total_taps
+int32   defect_cells
+float32 return_error   # distance from home at the end (m)
+---
+# Feedback
+float32 percent_complete
+int32   taps_done
+float32 current_x
+float32 current_y
